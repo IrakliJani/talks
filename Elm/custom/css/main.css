@@ -1,0 +1,58 @@
+@import 'Inconsolata.css';
+
+body {
+  color: #5a6378;
+}
+
+.reveal code {
+  font-family: "Inconsolata";
+  background-color: rgba(96, 180, 204, 0.1);
+  padding: 3px 10px;
+}
+
+.reveal pre {
+  box-shadow: none;
+}
+
+.reveal pre code {
+  padding: 15px 25px;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform: none;
+}
+
+.reveal h1 {
+  color: #60b4cc;
+}
+
+.reveal h2 {
+  color: #5a6378;
+  font-weight: 400;
+}
+
+.reveal h3 {
+  color: #5a6378;
+  font-weight: 400;
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.reveal h4 {
+  color: #5a6378;
+  font-weight: 400;
+}
+
+.reveal p {
+  font-size: 70%;
+}
+
+.reveal section img {
+  border: none;
+  box-shadow: none;
+}
+
+.reveal .controls {
+  -webkit-filter: grayscale(100%) opacity(50%);
+}
