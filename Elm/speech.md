@@ -8,8 +8,8 @@ theme: 'white'
 highlightTheme: 'tomorrow'
 revealOptions:
     transition: 'slide'
-	defaultTiming: 0
-	overview: true
+    defaultTiming: 0
+    overview: true
 ---
 
 # Elm
@@ -55,16 +55,22 @@ hello "FP Meetup!"    -- "Hello FP Meetup!"
 42    : number
 3.14  : Float
 
+﹇
 'a'   : Char
 "abc" : String
+⎵
 
+﹇
 True  : Bool
 False : Bool
+⎵
 
+﹇
 """
 Multi-line
 Strings
 """
+⎵
 ```
 
 ---
@@ -75,11 +81,15 @@ Strings
 23 + 19    -- 42 : number
 2.0 + 1    --  3 : Float
 
+﹇
 6 * 7      -- 42 : number
 10 * 4.2   -- 42 : Float
+⎵
 
+﹇
 100 // 2   -- 50 : Int
 1 / 2      -- 0.5 : Float
+⎵
 ```
 
 ---
@@ -88,15 +98,15 @@ Strings
 
 ```elm
 if True then "Foo" else "Bar"
-```
 
-```elm
+﹇
 if a == 1 then
     "Hello"
 else if a == 2 then
     "World"
 else
     "..."
+⎵
 ```
 
 ---
@@ -108,15 +118,12 @@ case a of
     1 -> "Hello"
     2 -> "World"
     _ -> "..."
-```
 
-```elm
-case currentUser of
-    Just user ->
-        "Hello " ++ user.name
-
-    Nothing ->
-        "no user..."
+﹇
+case userIsAuthenticated user of
+    True -> "Hello " ++ user.name
+    False -> "Authenticate..."
+⎵
 ```
 
 ---
@@ -125,24 +132,19 @@ case currentUser of
 
 ```elm
 square n = n ^ 2
-```
 
-```elm
-react =
-    let
-        language = "Elm"
-        reaction = "awesome"
-    in
-        language ++ " is " reaction
-```
-
-```elm
+﹇
 fib n =
     case n of
         0 -> 0
         1 -> 1
         _ -> fib (n - 1) + fib (n - 2)
+⎵
 ```
+
+---
+
+## Data Structures
 
 ---
 
@@ -151,22 +153,22 @@ fib n =
 
 ```elm
 [1, 2, 3, 4]
+﹇
 1 :: [2, 3, 4]
+⎵
+﹇
 1 :: 2 :: 3 :: 4 :: []
+⎵
+﹇
 [1, 2] ++ [3, 4]
-```
+⎵
 
-```elm
+﹇
 [1, 2, 3, 4]
     |> List.map ((*) 2)
     |> List.filter ((==) 4)
     |> List.length
-```
-
-```elm
-case list of
-    (head :: tail) -> tail ++ [head]
-    [] -> []
+⎵
 ```
 
 ---
@@ -175,17 +177,14 @@ case list of
 
 ```elm
 (12, 34)
+﹇
 ("John", 18, True)
-```
+⎵
 
-```elm
-Tuple.first (12, 34)                       -- 12
-Tuple.second (12, 34)                      -- 34
-```
-
-```elm
-(1, 2) |> Tuple.mapFirst (\x -> x * 2)     -- (2, 2)
-(3, 4) |> Tuple.mapSecond (\x -> x ^ 2)    -- (3, 16)
+﹇
+Tuple.first (12, 34)                        -- 12
+Tuple.mapSecond (\x -> x ** 2) (10, 10)     -- (10, 100)
+⎵
 ```
 
 ---
@@ -194,79 +193,266 @@ Tuple.second (12, 34)                      -- 34
 
 ```elm
 person1 = { name = "John", lastname = "Doe" }
+﹇
 person2 = { name = "Jane", lastname = "Roe" }
-```
+⎵
 
-```elm
-person1.name ++ " " ++ person1.lastname
--- "John Doe"
-```
+﹇
+person1.name ++ " " ++ person1.lastname     -- "John Doe"
+⎵
 
-```elm
-List.map .name [person1, person2]
--- ["John", "Jane"]
-```
+﹇
+List.map .name [person1, person2]           -- ["John", "Jane"]
+⎵
 
-```elm
+﹇
+-- Record update
 { person1 | name = "Jondo" }
-
-{ person1
-    | name = "First"
-    , lastname = "Last"
-}
+{ person1 | name = "First", lastname = "Last" }
+⎵
 ```
 
 ---
 
-### Union (Sum) Types
+## Advanced types
+
+---
+
+### Union Types (Sum, ADTs)
 
 ```elm
-type Action = Increment | Decrement | Reset
-```
+type Animal = Cat | Dog
+﹇
+     ^____^   ^_______^
+      type     type constructors
+⎵
 
-```elm
-type Person = Person String String Int
+﹇
+type State = Pending | Done | Failed
+⎵
 
-Person "John" "Doe" 21
-```
+﹇
+type Answer = Yes | No
+⎵
+﹇
+type Answer = Yes | No | Other String
+⎵
+﹇
+type Answer a = Yes | No | Other a
+⎵
 
-```elm
-type Bool = True | False
-```
-
-```elm
-type Maybe = Just a | Nothing
-```
-
-```elm
+﹇
 type Tree a
     = Empty
     | Node a (Tree a) (Tree a)
+⎵
+```
+
+---
+
+```elm
+type Bool = True | False
+
+﹇
+type Maybe a = Just a | Nothing
+⎵
+
+﹇
+type Result error value
+    = Ok value
+    | Err error
+⎵
+```
+
+---
+
+### Type Aliases
+
+```elm
+type alias Name = String
+﹇
+type alias Age = Int
+⎵
+
+﹇
+type alias Person =
+    { name : Name
+    , age : Age
+    }
+⎵
+
+﹇
+type Person = Person Name Age
+⎵
+﹇
+Person "John" 18
+⎵
+
+﹇
+type alias Model =
+    { data = Maybe (List Person)
+    , state = State
+    }
+⎵
+```
+
+---
+
+## Pattern Matching (Destructuring)
+
+---
+
+### Pattern Matching on Tuples
+
+```elm
+(x, y) = (322.82, 467.70)
+
+﹇
+(a, b, c) = ("A", "B", "C")
+⎵
+
+﹇
+(a, b, (c, d, e)) = ("A", "B", ("C", "D", "E"))
+⎵
+
+﹇
+(a, _, b, _, c) = (1, 2, 3, 4, 5)
+⎵
+```
+
+---
+
+### Pattern Matching on Lists
+
+```elm
+x :: xs = [1, 2, 3, 4, 5]
+
+﹇
+x :: y :: xs = [1, 2, 3, 4, 5]
+⎵
+```
+
+---
+
+### Pattern Matching on Records
+
+```elm
+person = { name = "John", lastname = "doe", age = 23 }
+{ name, lastname } = person
+```
+---
+
+### Patern Matching on Union Types
+
+```elm
+type alias Person = { name : String, lastname : String, age : Int }
+﹇
+type alias AuthUser = Maybe Person
+-- type Maybe a = Just a | Nothing
+⎵
+
+﹇
+helloUser : AuthUser -> String
+helloUser authUser =
+    case authUser of
+⎵
+﹇
+        Just user ->
+            "Hello " ++ user.name ++ " " user.lastname ++ "!"
+⎵
+
+﹇
+        Nothing ->
+            "User is not authenticated..."
+⎵
+```
+
+---
+
+```elm
+type alias Person = { name : String, lastname : String, age : Int }
+﹇
+type State = Loading | Done Person | Error String
+⎵
+
+﹇
+showState : State -> String
+showState state =
+    case state of
+⎵
+﹇
+        Loading ->
+            "Loading..."
+
+
+﹇
+        Done user ->
+            "Hello " ++ u.name ++ " " u.lastname ++ "!"
+⎵
+
+﹇
+        Error error ->
+            "Error while fetching data: " ++ error
+⎵
+```
+
+---
+
+## Operators
+
+---
+
+### Function composition
+
+```elm
+-- <<
+
+not << isEven << sqrt
+
+﹇
+-- >>
+
+sqrt >> isEven >> not
+⎵
+
+﹇
+one : a -> b
+two : b -> c
+three : c -> d
+⎵
+
+﹇
+-- a -> d
+three << two << one
+one >> two >> three
+⎵
 ```
 
 ---
 
 ### Pipe operators `|>` and `<|`
 
-`|>`
 ```elm
-String.join " " (List.reverse (String.words "Elm ❤️ I"))
-```
+-- |>
 
-```elm
+String.join " " (List.reverse (String.words "Elm ❤️ I"))
+
+﹇
 "Elm ❤️ I"
     |> String.words
     |> List.reverse
     |> String.join " "
-```
+⎵
 
-`<|`
-```elm
+﹇
+-- <|
+
 text (toString (person.age ++ " year old"))
-```
+⎵
 
-```
+﹇
 text <| toString <| person.age ++ " year old"
+⎵
 ```
 
 Note:
@@ -275,17 +461,7 @@ Note:
 
 ---
 
-### Function composition
-
-`<<`
-```elm
-not << isEven << sqrt
-```
-
-`>>`
-```elm
-sqrt >> isEven >> not
-```
+tbd: create your own operators
 
 ===
 

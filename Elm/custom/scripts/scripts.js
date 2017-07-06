@@ -1,13 +1,13 @@
-options.dependencies.forEach(function(dep) {
+options.dependencies.forEach(function (dep) {
   if (dep.src.indexOf('plugin/highlight/highlight.js') == -1) {
     return
   }
   var cb = dep.callback
-  dep.callback = function() {
+  dep.callback = function () {
     // more brackets @ https://unicode-table.com/en/search/?q=bracket
     ;[].forEach.call(
       document.querySelectorAll('section[data-markdown] pre code'),
-      function(v) {
+      function (v) {
         var lines = v.innerHTML.split('\n')
         res = ''
         for (var i = 0; i < lines.length; i++) {
