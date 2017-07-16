@@ -1,31 +1,36 @@
-options.dependencies.forEach(function (dep) {
+options.dependencies.forEach(dep => {
   if (dep.src.indexOf('plugin/highlight/highlight.js') == -1) {
     return
   }
+
   var cb = dep.callback
-  dep.callback = function () {
-    // more brackets @ https://unicode-table.com/en/search/?q=bracket
-    ;[].forEach.call(
-      document.querySelectorAll('section[data-markdown] pre code'),
-      function (v) {
-        var lines = v.innerHTML.split('\n')
-        res = ''
-        for (var i = 0; i < lines.length; i++) {
-          var line = lines[i]
-          if (line == '﹇') {
-            res += `<span class="fragment">`
-          } else if (line == '⎵') {
-            res += `</span>`
+  dep.callback = function() {
+    document.querySelectorAll('section').forEach(v => {
+      var updatedHtml = v.innerHTML
+        .split('\n')
+        .map(line => {
+          if (line == '<p>﹇</p>') {
+            return `<div class="fragment">`
+          } else if (line == '<p>⎵</p>') {
+            return '</div>'
+          } else if (line == '<p>⁅</p>') {
+            return '<div class="fragment halffade">'
+          } else if (line == '<p>⁆</p>') {
+            return '</div>'
           } else {
-            res +=
-              line
-                .replace('⁅', '<span class="fragment highlight-halffade">')
-                .replace('⁆', '</span>') + '\n'
+            return line
+              .replace(/﹇/, `<span class="fragment">️️⬜️`)
+              .replace(/⎵/, '⬜️</span>')
+              .replace(/⁅/, '<span class="fragment halffade">⬜️')
+              .replace(/⁆/, '⬜️</span>')
           }
-        }
-        v.innerHTML = res.trim()
-      }
-    )
+        })
+        .join('\n')
+        .replace(/⬜️\s/g, '')
+        .replace(/\s?⬜️/g, '')
+
+      v.innerHTML = updatedHtml
+    })
     cb()
   }
 })

@@ -22,10 +22,6 @@ revealOptions:
 
 #### Irakli Janiashvili
 
----
-
-## Beginner for Beginners
-
 ===
 
 # Elm Language
@@ -39,39 +35,46 @@ Note:
 
 ### Hello World
 
-```elm
-hello name = "Hello " ++ name
-
 ﹇
-hello "FP Meetup!"    -- "Hello FP Meetup!"
-⎵
+```elm
+hello = "Hello World!"
+
+⁅
+hello
+⁆
+⁅
+"Hello FP Meetup!"
+⁆
 ```
+⎵
 
 ---
 
 ### Literals
 
+﹇
 ```Elm
-42    : number
+42    : Int
 3.14  : Float
 
-﹇
+⁅
 'a'   : Char
 "abc" : String
-⎵
+⁆
 
-﹇
+⁅
 True  : Bool
 False : Bool
-⎵
+⁆
 
-﹇
+⁅
 """
 Multi-line
 Strings
 """
-⎵
+⁆
 ```
+⎵
 
 ---
 
@@ -122,7 +125,7 @@ case a of
 ﹇
 case userIsAuthenticated user of
     True -> "Hello " ++ user.name
-    False -> "Authenticate..."
+    False -> "User is not authenticated..."
 ⎵
 ```
 
@@ -214,39 +217,37 @@ List.map .name [person1, person2]           -- ["John", "Jane"]
 
 ---
 
-## Advanced types
+## Defining Types
 
 ---
 
-### Union Types (Sum, ADTs)
+### Union Types
 
 ```elm
 type Animal = Cat | Dog
-﹇
+⁅
      ^____^   ^_______^
       type     type constructors
-⎵
+⁆
+```
 
 ﹇
+```elm
 type State = Pending | Done | Failed
-⎵
 
-﹇
-type Answer = Yes | No
-⎵
-﹇
-type Answer = Yes | No | Other String
-⎵
-﹇
-type Answer a = Yes | No | Other a
-⎵
+⁅type Answer = Yes | No⁆
+⁅type Answer = Yes | No | Other String⁆
+⁅type Answer a = Yes | No | Other a⁆
 
-﹇
+⁅type List a = Nil | Cons a (List a)⁆
+
+⁅
 type Tree a
     = Empty
     | Node a (Tree a) (Tree a)
-⎵
+⁆
 ```
+⎵
 
 ---
 
@@ -290,7 +291,7 @@ Person "John" 18
 
 ﹇
 type alias Model =
-    { data = Maybe (List Person)
+    { data = List Person
     , state = State
     }
 ⎵
@@ -383,7 +384,6 @@ showState state =
 ﹇
         Loading ->
             "Loading..."
-
 
 ﹇
         Done user ->
@@ -490,12 +490,15 @@ init = 0
 ### Update
 
 ```elm
-type Msg = Increment
+type Msg = Increment | Decrement
 
 update msg model =
     case msg of
         Increment ->
             model + 1
+
+        Decrement ->
+            model - 1
 ```
 
 ---
@@ -507,6 +510,7 @@ view model =
     div []
         [ div [] [ text <| toString model ]
         , button [ onClick Increment ] [ text "Increment" ]
+        , button [ onClick Decrement ] [ text "Decrement" ]
         ]
 ```
 
@@ -606,11 +610,7 @@ Fast because of: Immutable data structures – reference equality
 
 ===
 
-# No more `undefined` is not a function!!!
-
-===
-
-# Demo Videos
+# Demos???
 ## [TBD]
 
 * Compiler led development

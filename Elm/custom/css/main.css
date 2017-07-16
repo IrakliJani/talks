@@ -18,7 +18,12 @@ body {
   padding: 15px 25px;
 }
 
-.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
   text-transform: none;
 }
 
@@ -54,5 +59,14 @@ body {
 }
 
 .reveal .controls {
-  -webkit-filter: grayscale(100%) opacity(50%);
+  filter: grayscale(100%) opacity(50%);
+}
+
+.reveal .fragment.halffade {
+  opacity: 0.15 !important;
+  visibility: visible !important;
+}
+
+.reveal .fragment.halffade.visible {
+  opacity: 1 !important;
 }
