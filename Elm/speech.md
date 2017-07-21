@@ -56,7 +56,7 @@ Note:
 
 ﹇
 ```elm
-hello = "Hello World!"
+hello = "Hello FP Meetup!"
 
 ⁅hello⁆
 ⁅-- "Hello FP Meetup!"⁆
@@ -160,6 +160,12 @@ case isAuthenticated user of
 ```elm
 \n -> n ^ 2
 ```
+
+﹇
+```elm
+square = \n -> n ^ 2
+```
+⎵
 
 ﹇
 ```elm
@@ -580,11 +586,11 @@ Note:
 ```elm
 not : Bool -> Bool
 isEven : Int -> Bool
-sqrt : Int -> Int
+sqrt : Float -> Float
 
 ﹇
--- : Int -> Bool
-(not (isEven (sqrt 9)))
+-- : Float -> Bool
+\x -> (not (isEven (sqrt x)))
 ⎵
 
 ﹇
