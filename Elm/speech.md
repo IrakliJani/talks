@@ -7,10 +7,13 @@ scripts: 'custom/scripts/scripts.js'
 theme: 'white'
 highlightTheme: 'tomorrow'
 revealOptions:
+    controls: false
     transition: 'slide'
     defaultTiming: 0
     overview: true
 ---
+
+<!-- ▓ - ░ -->
 
 # Elm
 
@@ -21,6 +24,22 @@ revealOptions:
 <br/>
 
 #### Irakli Janiashvili
+
+===
+
+# Topics
+
+<br />
+
+* What is Elm?
+* Intro to Elm Language
+* Intro to Elm Architecture
+* Why Elm?
+* Demos
+
+===
+
+# What is Elm?
 
 ===
 
@@ -39,12 +58,8 @@ Note:
 ```elm
 hello = "Hello World!"
 
-⁅
-hello
-⁆
-⁅
-"Hello FP Meetup!"
-⁆
+⁅hello⁆
+⁅-- "Hello FP Meetup!"⁆
 ```
 ⎵
 
@@ -52,7 +67,6 @@ hello
 
 ### Literals
 
-﹇
 ```Elm
 42    : Int
 3.14  : Float
@@ -63,37 +77,43 @@ hello
 ⁆
 
 ⁅
-True  : Bool
-False : Bool
-⁆
-
-⁅
 """
 Multi-line
 Strings
 """
 ⁆
+
+⁅
+True  : Bool
+False : Bool
+⁆
 ```
-⎵
 
 ---
 
-### Arithmetic operators
+### Operators
 
+##### Arithmetic
 ```elm
-23 + 19    -- 42 : number
-2.0 + 1    --  3 : Float
-
-﹇
-6 * 7      -- 42 : number
-10 * 4.2   -- 42 : Float
-⎵
-
-﹇
-100 // 2   -- 50 : Int
-1 / 2      -- 0.5 : Float
-⎵
+20 + 12              -- 42 : Int
+(12 - 2) / 3         -- 3.3333333333333335 : Float
+(9 // 2) ^ 2         -- 16 : Int
+123 % 2              -- 1 : Int
 ```
+﹇
+##### String
+```elm
+"Hello " ++ "World"  -- "Hello World" : String
+```
+⎵
+
+﹇
+##### Equality, Comparison, Boolean
+```elm
+False || False       -- False : Bool
+1 /= 2 && 2 <= 9     -- True : Bool
+```
+⎵
 
 ---
 
@@ -101,16 +121,18 @@ Strings
 
 ```elm
 if True then "Foo" else "Bar"
+```
 
 ﹇
+```elm
 if a == 1 then
-    "Hello"
+    "One"
 else if a == 2 then
-    "World"
+    "Two"
 else
-    "..."
-⎵
+    "Many"
 ```
+⎵
 
 ---
 
@@ -121,9 +143,11 @@ case a of
     1 -> "Hello"
     2 -> "World"
     _ -> "..."
+```
 
 ﹇
-case userIsAuthenticated user of
+```elm
+case isAuthenticated user of
     True -> "Hello " ++ user.name
     False -> "User is not authenticated..."
 ⎵
@@ -134,20 +158,84 @@ case userIsAuthenticated user of
 ### Functions
 
 ```elm
-square n = n ^ 2
+\n -> n ^ 2
+```
 
 ﹇
+```elm
+square n = n ^ 2
+⁅-- <function> : number -> number⁆
+```
+⎵
+
+﹇
+```elm
+add a b = a + b
+⁅-- <function> : number -> number -> number⁆
+
+⁅add3 = add 3⁆
+⁅-- <function> : number -> number⁆
+
+⁅add3 2⁆
+⁅-- 5⁆
+```
+
+---
+
+### Type Annotation
+
+```elm
+isEven : Int -> Bool
+⁅isEven n = n % 2 == 0⁆
+```
+
+﹇
+```elm
+fib : Int -> Int
+⁅
 fib n =
     case n of
         0 -> 0
         1 -> 1
         _ -> fib (n - 1) + fib (n - 2)
-⎵
+⁆
 ```
+⎵
+
+﹇
+```elm
+hello : String -> String
+⁅hello name = "Hello " ++ name ++ "!"⁆
+```
+⎵
 
 ---
 
-## Data Structures
+```elm
+hello 42
+```
+
+﹇
+```
+–––– TYPE MISMATCH ––––
+
+The argument to function `hello` is causing a mismatch.
+
+3|   hello 42
+           ^^
+Function `hello` is expecting the argument to be:
+
+    String
+
+But it is:
+
+    number
+```
+⎵
+
+---
+
+## Core Data Structures
 
 ---
 
@@ -155,7 +243,7 @@ fib n =
 
 
 ```elm
-[1, 2, 3, 4]
+[1, 2, 3, 4]     -- : List Number
 ﹇
 1 :: [2, 3, 4]
 ⎵
@@ -167,10 +255,9 @@ fib n =
 ⎵
 
 ﹇
-[1, 2, 3, 4]
-    |> List.map ((*) 2)
-    |> List.filter ((==) 4)
-    |> List.length
+List.map (\n -> n * 2) [1, 2, 3, 4]
+⁅List.map ((*) 2) [1, 2, 3, 4]⁆
+⁅List.filter ((==) 4) [1, 2, 3, 4]⁆
 ⎵
 ```
 
@@ -179,14 +266,14 @@ fib n =
 ### Tuples
 
 ```elm
-(12, 34)
+(12, 34)               -- : ( Int, Int )
 ﹇
-("John", 18, True)
+("John", 18, True)     -- : ( String, Int, Bool )
 ⎵
 
 ﹇
-Tuple.first (12, 34)                        -- 12
-Tuple.mapSecond (\x -> x ** 2) (10, 10)     -- (10, 100)
+Tuple.first (12, 34)               -- 12
+Tuple.mapSecond ((*) 2) (4, 4)     -- (4, 16)
 ⎵
 ```
 
@@ -195,29 +282,53 @@ Tuple.mapSecond (\x -> x ** 2) (10, 10)     -- (10, 100)
 ### Records
 
 ```elm
-person1 = { name = "John", lastname = "Doe" }
+user = { name = "John", lastname = "Lennon" }
 ﹇
-person2 = { name = "Jane", lastname = "Roe" }
+user : { name : String, lastname : String }
 ⎵
 
 ﹇
-person1.name ++ " " ++ person1.lastname     -- "John Doe"
+user.name ++ " " ++ user.lastname     -- "John Doe"
 ⎵
-
 ﹇
-List.map .name [person1, person2]           -- ["John", "Jane"]
-⎵
-
-﹇
--- Record update
-{ person1 | name = "Jondo" }
-{ person1 | name = "First", lastname = "Last" }
+.name user     -- "John"
 ⎵
 ```
 
+﹇
+```elm
+players : List { name : String }
+players =
+    [ { name = "John" }
+    , { name = "George"}
+    , { name = "Paul" }
+    , { name = "Ringo" }
+    ]
+
+⁅List.map .name players     -- ["John", "George", "Paul", "Ringo"]⁆
+```
+⎵
+
+﹇
+```elm
+{ user | name = "Jondo" }
+{ user | name = "Jon", lastname = "Doe" }
+```
+⎵
+
 ---
 
-## Defining Types
+## Other Core Data Structures
+
+<br />
+
+* Array
+* Dict
+* Set
+
+---
+
+## Defining New Types
 
 ---
 
@@ -233,19 +344,26 @@ type Animal = Cat | Dog
 
 ﹇
 ```elm
-type State = Pending | Done | Failed
+type Answer = Yes | No
+⁅Yes     -- Yes : Answer ⁆
+```
+⎵
 
-⁅type Answer = Yes | No⁆
-⁅type Answer = Yes | No | Other String⁆
-⁅type Answer a = Yes | No | Other a⁆
+﹇
+```elm
+type Answer = Yes | No | Other String
+⁅Yes                  -- Yes : Answer⁆
+⁅Other                -- <function> : String  -> Answer⁆
+⁅Other "Not Sure"     -- Other "Not Sure" : Answer⁆
+```
+⎵
 
-⁅type List a = Nil | Cons a (List a)⁆
-
-⁅
-type Tree a
-    = Empty
-    | Node a (Tree a) (Tree a)
-⁆
+﹇
+```elm
+type Answer a = Yes | No | Other a
+⁅Yes                  -- Yes : Answer a⁆
+⁅Other                -- <function> : a  -> Answer a⁆
+⁅Other "Not Sure"     -- Other "Not Sure" : Answer String⁆
 ```
 ⎵
 
@@ -254,14 +372,12 @@ type Tree a
 ```elm
 type Bool = True | False
 
-﹇
-type Maybe a = Just a | Nothing
-⎵
+﹇type List a = Nil | Cons a (List a)⎵
 
 ﹇
-type Result error value
-    = Ok value
-    | Err error
+type Tree a
+    = Empty
+    | Node a (Tree a) (Tree a)
 ⎵
 ```
 
@@ -276,192 +392,250 @@ type alias Age = Int
 ⎵
 
 ﹇
-type alias Person =
+type alias User =
     { name : Name
     , age : Age
     }
 ⎵
 
 ﹇
-type Person = Person Name Age
-⎵
-﹇
-Person "John" 18
-⎵
-
-﹇
 type alias Model =
-    { data = List Person
-    , state = State
+    { users = List User
+    , ...
     }
 ⎵
 ```
 
 ---
 
-## Pattern Matching (Destructuring)
+## Pattern Matching
 
 ---
 
-### Pattern Matching on Tuples
+### Pattern Matching on Core Data Structures
 
+﹇
 ```elm
 (x, y) = (322.82, 467.70)
-
-﹇
-(a, b, c) = ("A", "B", "C")
-⎵
-
-﹇
-(a, b, (c, d, e)) = ("A", "B", ("C", "D", "E"))
-⎵
-
-﹇
-(a, _, b, _, c) = (1, 2, 3, 4, 5)
-⎵
+﹇(a, b, c) = ("A", "B", "C")⎵
+﹇(a, b, (c, d, e)) = ("A", "B", ("C", "D", "E"))⎵
+﹇(a, _, b, _, c) = (1, 2, 3, 4, 5)⎵
 ```
+⎵
 
----
-
-### Pattern Matching on Lists
-
+﹇
 ```elm
 x :: xs = [1, 2, 3, 4, 5]
+﹇x :: _ :: z :: _ = [1, 2, 3, 4, 5]⎵
+```
+⎵
 
 ﹇
-x :: y :: xs = [1, 2, 3, 4, 5]
-⎵
-```
-
----
-
-### Pattern Matching on Records
-
 ```elm
-person = { name = "John", lastname = "doe", age = 23 }
-{ name, lastname } = person
+user = { name = "John", lastname = "doe", age = 23 }
+﹇{ name, lastname } = user⎵
 ```
+⎵
+
 ---
 
 ### Patern Matching on Union Types
 
 ```elm
-type alias Person = { name : String, lastname : String, age : Int }
-﹇
-type alias AuthUser = Maybe Person
--- type Maybe a = Just a | Nothing
-⎵
+type Answer = Yes | No | Other String
 
 ﹇
-helloUser : AuthUser -> String
-helloUser authUser =
-    case authUser of
-⎵
-﹇
-        Just user ->
-            "Hello " ++ user.name ++ " " user.lastname ++ "!"
-⎵
+getAnswer : Answer -> String
+⁅getAnswer answer =⁆
+⁅    case answer of⁆
+⁅
+        Yes ->
+            "Yes!!!"
+⁆
 
-﹇
-        Nothing ->
-            "User is not authenticated..."
+⁅
+        No ->
+            "Oh no :((("
+⁆
+
+⁅
+        Other reason ->
+            reason
+⁆
 ⎵
 ```
 
 ---
 
+## Where is `null`?
+
+<br />
+<br />
+
+﹇
+<div class="quote">
+    **I call it my billion-dollar mistake**. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. **But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement**. This has led to innumerable errors, vulnerabilities, and system crashes, **which have probably caused a billion dollars of pain and damage in the last forty years**.
+</div>
+
+**Tony Hoare** (2009)
+⎵
+
+---
+
+### Maybe
+
+﹇
 ```elm
-type alias Person = { name : String, lastname : String, age : Int }
-﹇
-type State = Loading | Done Person | Error String
-⎵
-
-﹇
-showState : State -> String
-showState state =
-    case state of
-⎵
-﹇
-        Loading ->
-            "Loading..."
-
-﹇
-        Done user ->
-            "Hello " ++ u.name ++ " " u.lastname ++ "!"
-⎵
-
-﹇
-        Error error ->
-            "Error while fetching data: " ++ error
-⎵
+type Maybe a = Just a | Nothing
 ```
+⎵
+
+﹇
+```elm
+isAnswer : Maybe Answer -> Bool
+⁅isAnswer answer =⁆
+⁅    case answer of⁆
+⁅       Just _ -> True⁆
+⁅       Nothing -> False⁆
+```
+⎵
+
+﹇
+```elm
+getAnswer : Maybe Answer -> String
+⁅getAnswer answer =⁆
+⁅    case answer of⁆
+⁅       Just Yes -> "Yes!!!"⁆
+⁅       Just No -> "Oh no :((("⁆
+⁅       Just (Other reason) -> reason⁆
+⁅       Nothing -> "There is no answer..."⁆
+```
+⎵
 
 ---
 
-## Operators
+## Where are exceptions?
+
+---
+
+### Result
+
+﹇
+```elm
+type Result error value
+    = Ok value
+    | Err error
+```
+⎵
+
+﹇
+```elm
+getAnswerResult : Result String Answer -> String
+⁅getAnswerResult answer =⁆
+⁅    case answer of⁆
+⁅       Ok Yes -> "Yes!!!"⁆
+⁅       Ok No -> "Oh no :((("⁆
+⁅       Ok (Other reason) -> reason⁆
+⁅       Err error -> "error: " ++ error⁆
+```
+⎵
+
+﹇
+```elm
+isYesResult : Result String Answer -> Bool
+⁅isYesResult answer =⁆
+⁅    case answer of⁆
+⁅       Ok Yes -> True⁆
+⁅       _ -> False⁆
+```
+⎵
+
+Note:
+* A Result is the result of a computation that may fail
+* This is a great way to manage errors in Elm
 
 ---
 
 ### Function composition
 
+﹇
 ```elm
--- <<
-
-not << isEven << sqrt
+(g ∘ f )(x) = g(f(x))
+```
+⎵
 
 ﹇
--- >>
+```elm
+(g << f)  ==  (\x -> g (f x))
+```
+⎵
 
+﹇
+```elm
+(g >> f)  ==  (\x -> f (g x))
+```
+⎵
+
+﹇
+```elm
+not : Bool -> Bool
+isEven : Int -> Bool
+sqrt : Int -> Int
+
+﹇
+-- : Int -> Bool
+(not (isEven (sqrt 9)))
+⎵
+
+﹇
 sqrt >> isEven >> not
 ⎵
-
 ﹇
-one : a -> b
-two : b -> c
-three : c -> d
-⎵
-
-﹇
--- a -> d
-three << two << one
-one >> two >> three
+not << isEven << sqrt
 ⎵
 ```
 
 ---
 
-### Pipe operators `|>` and `<|`
-
-```elm
--- |>
-
-String.join " " (List.reverse (String.words "Elm ❤️ I"))
+### Pipe operators
 
 ﹇
+```elm
+String.join " " (List.reverse (String.words "Elm ❤️ I"))
+
+⁅
 "Elm ❤️ I"
     |> String.words
     |> List.reverse
     |> String.join " "
-⎵
-
-﹇
--- <|
-
-text (toString (person.age ++ " year old"))
-⎵
-
-﹇
-text <| toString <| person.age ++ " year old"
-⎵
+⁆
 ```
+⎵
+
+﹇
+```elm
+List.map ((*) 2) (List.filter ((/=) 4) (List.length [1, 2, 3, 4]))
+
+⁅
+[1, 2, 3, 4]
+    |> List.map ((*) 2)
+    |> List.filter ((/=) 4)
+    |> List.length
+⁆
+```
+⎵
+
+﹇
+```elm
+text (alignCenter ((color "Blue") "Some Text"))
+
+⁅text <| alignCenter <| (color "Blue") <| "Some Text"⁆
+```
+⎵
 
 Note:
 * Similar like Unix pipes, borrowed from F#
 * Chain different functions when type signature match
-
----
-
-tbd: create your own operators
 
 ===
 
