@@ -536,7 +536,7 @@ getAnswer : Maybe Answer -> String
 ## Where are exceptions?
 
 ⁅
-![](https://68.media.tumblr.com/41c7fbeef9f89bd4434377dc72ccf476/tumblr_mftubhrzmk1r8bwiro1_500.gif)
+![drawing](./res/slap.gif)
 ⁆
 
 ---
