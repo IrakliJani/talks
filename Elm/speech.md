@@ -475,6 +475,17 @@ getAnswer : Answer -> String
 
 ---
 
+```
+This `case` does not have branches for all possibilities.
+- You need to account for the following values:
+
+    Other _
+
+Add a branch to cover this pattern!
+```
+
+---
+
 ## Where is `null`?
 
 <br />
@@ -523,6 +534,10 @@ getAnswer : Maybe Answer -> String
 ---
 
 ## Where are exceptions?
+
+⁅
+![](https://68.media.tumblr.com/41c7fbeef9f89bd4434377dc72ccf476/tumblr_mftubhrzmk1r8bwiro1_500.gif)
+⁆
 
 ---
 
@@ -699,9 +714,9 @@ type Msg = Increment | Decrement
 ⁅
 update : Msg -> Model -> Model
 update msg model =
-    case msg of
 ⁆
 ⁅
+    case msg of
         Increment ->
             model + 1
 ⁆
@@ -720,12 +735,18 @@ update msg model =
 ```elm
 view : Model -> Html Msg
 view model =
+⁅
     div []
-        [ div [] [ text (toString model) ]
-        , button [ onClick Increment ] [ text "Increment" ]
-        , button [ onClick Decrement ] [ text "Decrement" ]
+        [ ⁅div [] [ text (toString model) ]⁆
+        ⁅, button [ onClick Increment ] [ text "Increment" ]⁆
+        ⁅, button [ onClick Decrement ] [ text "Decrement" ]⁆
         ]
+⁆
 ```
+
+<br />
+
+![drawing](./res/g1.gif)
 
 ---
 
@@ -774,7 +795,7 @@ init = ( 0, Cmd.none )
 ```elm
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every Time.second Tick
+    ⁅Time.every Time.second Tick⁆
 ```
 
 ---
@@ -803,6 +824,10 @@ update msg model =
 view : Model -> Html Msg
 view model = text <| toString model
 ```
+
+<br />
+
+![drawing](./res/g2.gif)
 
 ===
 
