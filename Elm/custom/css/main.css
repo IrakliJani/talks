@@ -95,3 +95,8 @@ div .quote {
 div .quote strong {
   color: #5a6378;
 }
+
+img[alt=drawing] {
+  max-height: 50%;
+  max-width: 50%;
+}

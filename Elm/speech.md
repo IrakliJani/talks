@@ -17,7 +17,7 @@ revealOptions:
 
 # Elm
 
-![](https://avatars0.githubusercontent.com/u/4359353?v=3&s=100)
+![](./res/elm.png)
 ## Performant web apps
 ## without Runtime exceptions
 
@@ -35,7 +35,6 @@ revealOptions:
 * Intro to Elm Language
 * Intro to Elm Architecture
 * Why Elm?
-* Demos
 
 ===
 
@@ -214,6 +213,9 @@ hello : String -> String
 ⁅hello name = "Hello " ++ name ++ "!"⁆
 ```
 ⎵
+
+Note:
+* type inferencing -> automatic type deduction
 
 ---
 
@@ -480,7 +482,7 @@ getAnswer : Answer -> String
 
 ﹇
 <div class="quote">
-    **I call it my billion-dollar mistake**. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. **But I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement**. This has led to innumerable errors, vulnerabilities, and system crashes, **which have probably caused a billion dollars of pain and damage in the last forty years**.
+    **I call it my billion-dollar mistake**. It was the invention of the null reference in 1965. At that time, I was designing the first comprehensive type system for references in an object oriented language (ALGOL W). My goal was to ensure that all use of references should be absolutely safe, with checking performed automatically by the compiler. But **I couldn't resist the temptation to put in a null reference, simply because it was so easy to implement**. This has led to innumerable errors, vulnerabilities, and system crashes, **which have probably caused a billion dollars of pain and damage in the last forty years**.
 </div>
 
 **Tony Hoare** (2009)
@@ -653,50 +655,13 @@ Note:
 * **View** — A way to view your state as HTML.
 * **Update** — A way to update your state.
 
-![](https://guide.elm-lang.org/architecture/effects/beginnerProgram.svg)
+![drawing](./res/d0.png)
 
 ---
 
-### Model
+### Html Beginner Program
 
-```elm
-type alias Model = Int
-
-init = 0
-```
-
----
-
-### Update
-
-```elm
-type Msg = Increment | Decrement
-
-update msg model =
-    case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-```
-
----
-
-### View
-
-```elm
-view model =
-    div []
-        [ div [] [ text <| toString model ]
-        , button [ onClick Increment ] [ text "Increment" ]
-        , button [ onClick Decrement ] [ text "Decrement" ]
-        ]
-```
-
----
-
-### Html Program
+<br />
 
 ```elm
 main =
@@ -707,48 +672,45 @@ main =
         }
 ```
 
----
-
-* **Commands** — A Cmd lets you do stuff: send an HTTP request, generate a random number, etc.
-* **Subscriptions** — A Sub lets you register that you are interested in something: tell me about mouse movements, listen for web socket messages, etc.
-
-![](https://guide.elm-lang.org/architecture/effects/program.svg)
+![drawing](./res/g1.gif)
 
 ---
 
 ### Model
 
 ```elm
-type alias Model =
-    { time : Int }
-
-init =
-    ( { time = 0 }
-    , Cmd.none
-    )
+type alias Model = Int
 ```
+
+⁅
+```elm
+init : Model
+init = 0
+```
+⁆
 
 ---
 
-### Update and Subscribe
+### Update
 
 ```elm
-type Msg
-    = Tick Time
-```
+type Msg = Increment | Decrement
 
-```elm
-subscriptions model =
-    Time.every Time.second Tick
-```
-
-```elm
+⁅
+update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Tick _ ->
-            ( { model | time = model.time + 1 }
-            , Cmd.none
-            )
+⁆
+⁅
+        Increment ->
+            model + 1
+⁆
+
+⁆
+⁅
+        Decrement ->
+            model - 1
+⁆
 ```
 
 ---
@@ -756,13 +718,27 @@ update msg model =
 ### View
 
 ```elm
+view : Model -> Html Msg
 view model =
-    text <| toString model.time
+    div []
+        [ div [] [ text (toString model) ]
+        , button [ onClick Increment ] [ text "Increment" ]
+        , button [ onClick Decrement ] [ text "Decrement" ]
+        ]
 ```
 
 ---
 
+* **Commands** — A way to perform stuff. Http, Random...
+* **Subscriptions** — A way to listen to something. Keyboard, Mouse, WebSocket...
+
+![drawing](./res/d1.png)
+
+---
+
 ### Html Program
+
+<br />
 
 ```elm
 main =
@@ -774,43 +750,92 @@ main =
         }
 ```
 
+![drawing](./res/g2.gif)
+
+---
+
+### Model
+
+```elm
+type alias Model = Int
+```
+
+⁅
+```elm
+init : ( Model, Cmd Msg )
+init = ( 0, Cmd.none )
+```
+⁆
+
+---
+
+### Subscribe
+
+```elm
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Time.every Time.second Tick
+```
+
+---
+
+### Update
+
+```elm
+type Msg = Tick Time
+```
+
+⁅
+```elm
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Tick _ ->
+            ( model + 1, Cmd.none )
+```
+⁆
+
+---
+
+### View
+
+```elm
+view : Model -> Html Msg
+view model = text <| toString model
+```
+
 ===
 
-# Why Elm
+# Why Elm?
 
+<br />
+
+* Blazing Fast. [1]
 * Beginner friendly with explanatory error messages.
 * Well-architected code with pleasing refactorings.
-* Blazing Fast. [1]
 * No runtime errors in practice.
+
+<br />
 
 [1] [http://elm-lang.org/blog/blazing-fast-html-round-two](http://elm-lang.org/blog/blazing-fast-html-round-two)
 
 Note:
-Fast because of: Immutable data structures – reference equality
-
-===
-
-# Demos???
-## [TBD]
-
+* Fast because of: Immutable data structures – reference equality
 * Compiler led development
 * Time Travel debugger
 * State Export -> Import
 
 ===
 
-# Elm Packages
-## [TBD]
+# JS Interop.
 
 ===
 
-# JS Interop.
-## [TBD]
+# Elm Packages
 
 ===
 
 # Adopting Elm
-## [TBD]
 
 ===
 
