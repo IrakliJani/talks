@@ -7,7 +7,7 @@ scripts: 'custom/scripts/scripts.js'
 theme: 'white'
 highlightTheme: 'tomorrow'
 revealOptions:
-    controls: false
+    controls: true
     transition: 'slide'
     defaultTiming: 0
     overview: true
@@ -879,14 +879,12 @@ Note:
 <br>
 <br>
 <br>
-<br>
-<br>
 
 # Thanks 🙌
 
 <br>
 <br>
-<br>
 
-#### [@iJaniashvili](http://twitter.com/iJaniashvili)
+#### [jani.io](http://jani.io)
+#### [@iJaniashvili](https://twitter.com/iJaniashvili)
 #### https://github.com/iJaniashvili/talks/Elm

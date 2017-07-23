@@ -1,11 +1,11 @@
-@import './Inconsolata.css';
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
 
 body {
   color: #5a6378;
 }
 
 .reveal code {
-  font-family: "Inconsolata";
+  font-family: 'Inconsolata', monospace;
   background-color: rgba(96, 180, 204, 0.1);
   padding: 3px 10px;
 }
